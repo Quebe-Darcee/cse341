@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+</head>
+
+<body>
+<h1>Books</h1>
+  <div>
+    <% for (var i=0; i < books.length; i++) { %>
+      <strong>Title:</strong> <%= books[i].name %> <br>
+      <strong>Author:</strong> <%= books[i].author %><br>
+      <strong>Summary:</strong> <%= books[i].summary %><br>
+      <hr>
+    <% } %>
+
+  </div>
+</body>
+</html>
