@@ -120,7 +120,7 @@ form {
 .main-header__item a.active,
 .main-header__item button:hover,
 .main-header__item button:active {
-  color: red;
+  color: pink;
 }
 
 .mobile-nav {
