@@ -1,7 +1,7 @@
 const User = require('../models/user');
 
 const crypto = require('crypto');
-
+const { body } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
@@ -266,6 +266,57 @@ exports.postNewPassword = (req, res, next) => {
   })
   .then(result => {
     res.redirect('/login');
+  })
+  .catch(err => {
+    const error = new Error(err);
+    error.httpStatusCode = 500;
+    return next(error);
+  });
+};
+
+exports.getProfile = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
+  res.render('auth/profile', {
+    path: '/profile',
+    pageTitle: 'Profile',
+    errorMessage: message,
+    email: req.user.email,
+    validationErrors: []
+  });
+};
+
+exports.postUpdateProfile = (req, res, next) => {
+
+  const password = req.body.password;
+
+  // validate password
+  const errors = validationResult(req);
+  console.log(errors);
+
+  if (!errors.isEmpty()) {
+    return res.status(400).render('auth/profile', {
+      path: '/profile',
+      pageTitle: 'Profile',
+      errorMessage: errors.array()[0].msg,
+      email: req.user.email,
+      validationErrors: errors.array()
+    });
+  }
+
+  // hash then update users password
+  const user = req.user;
+  bcrypt.hash(password, 12)
+  .then(hashedPassword => {
+    user.password = hashedPassword;
+    return user.save();
+  })
+  .then(result => {
+    res.redirect('/');
   })
   .catch(err => {
     const error = new Error(err);

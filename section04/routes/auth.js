@@ -63,4 +63,21 @@ router.get('/reset/:token', authController.getNewPassword);
 
 router.post('/new-password', authController.postNewPassword);
 
+router.get('/profile', authController.getProfile);
+
+router.post('/profile', [
+  body('password', 'Please enter a valid password.')
+    .isLength({min: 5})
+    .isAlphanumeric()
+    .trim(),
+  body('confirmPassword')
+    .trim()
+    .custom((value, { req}) => {
+      if (value !== req.body.password ) {
+        throw new Error('Passwords have to match.');
+      }
+      return true;
+    })
+], authController.postUpdateProfile);
+
 module.exports = router;
