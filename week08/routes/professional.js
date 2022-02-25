@@ -5,6 +5,6 @@ const professionalController = require('../controllers/professional');
 const router = express.Router();
 
 // GET /feed/posts
-router.get('/professional', professionalController.getData);
+router.get('/', professionalController.getData);
 
 module.exports = router;
