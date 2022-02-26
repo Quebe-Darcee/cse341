@@ -7,8 +7,8 @@ exports.getData = (req, res, next) => {
       url: 'https://www.google.com'
     },
     primaryDescription: 'Mother, student, reader, and baker.',
-    workDescription1: 'Created a store website.',
-    workDescription2: 'Created a recipe index.',
+    workDescription1: 'Developer',
+    workDescription2: 'Researcher',
     linkTitleText: 'Social Accounts',
     linkedInLink: {
       text: 'Linked In',
